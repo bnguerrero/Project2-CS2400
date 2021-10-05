@@ -1,4 +1,6 @@
-public class ResizeableArrayStack implements StackInterface<T>
+import java.util.EmptyStackException;
+
+public class ResizeableArrayStack<T> implements StackInterface<T>
 {
     private T[] stack;
     private int topIndex;
@@ -6,12 +8,12 @@ public class ResizeableArrayStack implements StackInterface<T>
     private static final int DEFAULT_CAPACITY = 50;
     private static final int MAX_CAPACITY = 10000;
     
-    public ArrayStack()
+    public ResizeableArrayStack()
     {
         this(DEFAULT_CAPACITY);
     }
     
-    public ArrayStack(int inititalCapacity)
+    public ResizeableArrayStack(int inititalCapacity)
     {
         integrityOK = false; 
         checkCapacity(inititalCapacity);
@@ -55,6 +57,7 @@ public class ResizeableArrayStack implements StackInterface<T>
             return top;
         }
     }
+    
     public T peek()
     {
         checkIntegrity();
@@ -62,6 +65,21 @@ public class ResizeableArrayStack implements StackInterface<T>
             throw new EmptyStackException();
         else 
             return stack[topIndex];
+    }
+    
+    public boolean isEmpty()
+    {
+        return topIndex < 0;
+    }
+
+    public void clear()
+    {
+        checkIntegrity();
+        while (topIndex > -1)
+        {
+            stack[topIndex] = null;
+            topIndex--;
+        }
     }
   
   
