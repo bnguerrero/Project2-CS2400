@@ -94,10 +94,18 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
                 char nextCharacter = infix.charAt(i);
                 switch (nextCharacter)
                 {
-                    case 
-
                     case '^':
-                        operatorsStack.push(nextCharacter);
+                    {
+                        String tempNextCharachter = String.valueOf(nextCharacter);
+                        operatorsStack.push(tempNextCharachter);
+                    }
+                    case '+': case '-': case '*': case'/':
+                    {
+                        while ((!operatorsStack.isEmpty())&& )
+                        {
+
+                        }
+                    }
 
 
                 }
