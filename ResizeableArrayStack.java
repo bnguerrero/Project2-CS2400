@@ -81,6 +81,31 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
             topIndex--;
         }
     }
+    
+    public String convertToPostfix(String infix)
+    {
+        StackInterface<T> operatorsStack = new ResizeableArrayStack<T>();
+        String postfix; 
+
+        while (infix.length() != 0)
+        {
+            for (int i=0; i<infix.length(); i++)
+            {
+                char nextCharacter = infix.charAt(i);
+                switch (nextCharacter)
+                {
+                    case 
+
+                    case '^':
+                        operatorsStack.push(nextCharacter);
+
+
+                }
+
+            }
+
+        }
+    }
   
   
   
