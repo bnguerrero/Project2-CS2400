@@ -16,7 +16,6 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
     public ResizeableArrayStack(int inititalCapacity)
     {
         integrityOK = false; 
-        checkCapacity(inititalCapacity);
         @SuppressWarnings("unchecked")
         T[] tempStack =(T[])new Object[inititalCapacity];
         stack = tempStack;
@@ -24,23 +23,12 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
         integrityOK = true;
     }
     
-    public void push(t newEntry)
+    public void push(T newEntry)
     {
-        checkIntegrity();
-        ensureCapacity();
         stack[topIndex+1] = newEntry;
         topIndex++;
     }
 
-    private void ensureCapacity()
-    {
-        if (topIndex >= stack.length-1)
-        {
-            int newLength = 2* stack.length;
-            checkCapacity(newLength);
-            stack = Arrays.copyOf(stack, newLength);
-        }
-    }
     
     public T pop()
     {
@@ -81,37 +69,47 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
             topIndex--;
         }
     }
-    
-    public String convertToPostfix(String infix)
-    {
-        StackInterface<T> operatorsStack = new ResizeableArrayStack<T>();
-        String postfix; 
 
-        while (infix.length() != 0)
-        {
-            for (int i=0; i<infix.length(); i++)
-            {
-                char nextCharacter = infix.charAt(i);
-                switch (nextCharacter)
-                {
-                    case '^':
-                    {
-                        String tempNextCharachter = String.valueOf(nextCharacter);
-                        operatorsStack.push(tempNextCharachter);
+    public int evaluatePostfix(String entry){
+        ResizeableArrayStack<Integer> stack1 = new ResizeableArrayStack<>();
+        for(int i=0, temp; i<entry.length(); i++){
+            switch(entry.charAt(i)){
+                case 'a': case 'b': case 'c': case 'd': case 'e':
+                    stack1.push(Character.getNumericValue(entry.charAt(i))-8);
+                    break;
+                case '+': 
+                    stack1.push(stack1.pop() + stack1.pop());
+                    break;
+                case '-': 
+                    temp = stack1.pop();
+                    stack1.push(stack1.pop() - temp);
+                    break;
+                case '*': 
+                    stack1.push(stack1.pop() * stack1.pop());
+                    break;
+                case '/': 
+                    temp = stack1.pop();
+                    stack1.push(stack1.pop() / temp);
+                    break;
+                case '^':
+                    temp = stack1.pop();
+                    int base = stack1.pop();
+                    for(int j=1; j<temp; j++){
+                        base *= base;
                     }
-                    case '+': case '-': case '*': case'/':
-                    {
-                        while ((!operatorsStack.isEmpty())&& )
-                        {
-
-                        }
-                    }
-
-
-                }
-
+                    stack1.push(base);
+                    break;
+                default:
+                    break;
             }
-
+        }
+        return stack1.peek();
+    }
+    private void checkIntegrity()
+    {
+        if(!integrityOK)
+        {
+            throw new SecurityException("Array Bag object is corrupt");
         }
     }
   
