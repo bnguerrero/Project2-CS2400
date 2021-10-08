@@ -1,4 +1,5 @@
 import java.util.EmptyStackException;
+import java.util.Arrays;
 
 public class ResizeableArrayStack<T> implements StackInterface<T>
 {
@@ -15,6 +16,7 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
     
     public ResizeableArrayStack(int inititalCapacity)
     {
+        checkCapacity(inititalCapacity);
         integrityOK = false; 
         @SuppressWarnings("unchecked")
         T[] tempStack =(T[])new Object[inititalCapacity];
@@ -25,6 +27,8 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
     
     public void push(T newEntry)
     {
+        checkIntegrity();
+        ensureCapacity();
         stack[topIndex+1] = newEntry;
         topIndex++;
     }
@@ -104,6 +108,18 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
             }
         }
         return stack1.peek();
+    }
+    private void checkCapacity(int capacity){
+        if(capacity > MAX_CAPACITY){
+            throw new IllegalStateException("Attempt to create a list whos capacity is above maximum");
+        }
+    }
+    private void ensureCapacity(){
+        if(topIndex >= stack.length -1){
+            int newLength = 2 * stack.length;
+            checkCapacity(newLength);
+            stack = Arrays.copyOf(stack, newLength);
+        }
     }
     private void checkIntegrity()
     {
