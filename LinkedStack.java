@@ -1,9 +1,10 @@
 import java.util.EmptyStackException;
-import java.lang.*;
+//import java.lang.*;
 
 public class LinkedStack<T> implements StackInterface<T>
 {
-    private Node topNode; // = firstNode
+    private Node topNode; 
+    private int numberOfEntries;
 
     public LinkedStack()
     {
@@ -37,11 +38,10 @@ public class LinkedStack<T> implements StackInterface<T>
         }
 
 	} 
-    //getData, setData, getNextNode, setNextNode
 
     public void push(T newEntry)
     {
-        Node newNode= new Node(newEntry, topNode);
+        Node newNode = new Node(newEntry, topNode);
         topNode = newNode;
     }
 
@@ -55,9 +55,13 @@ public class LinkedStack<T> implements StackInterface<T>
     public T peek()
     {
         if (isEmpty())
+        {
             throw new EmptyStackException();
+        }
         else
+        {
             return topNode.getData();
+        }
     }
 
     public boolean isEmpty()
@@ -97,26 +101,23 @@ public class LinkedStack<T> implements StackInterface<T>
     public void convertToPostfix(String infix)
     {
         StackInterface<Character> operatorStack = new LinkedStack<>();
-        StringBuilder postfix = new StringBuilder(""); 
+        StringBuilder postfix = new StringBuilder("");
 
-        while (infix.length() != 0)
+        for (int i=0; i<infix.length(); i++)
         {
-            for (int i=0; i<infix.length(); i++)
+            char nextCharacter = infix.charAt(i);
+            while (nextCharacter != ' ')
             {
-                char nextCharacter = infix.charAt(i);
-
                 switch (nextCharacter)
                 {
                     case 'a': case 'b': case 'c': case 'd': case 'e':
                     {
                         postfix.append(nextCharacter);
                     }
-
                     case '^':
                     {
                         operatorStack.push(nextCharacter);
                     }
-
                     case '+': case '-': case '*': case'/':
                     {
                         while ((!operatorStack.isEmpty())&& (precedenceOf(nextCharacter) <= precedenceOf(operatorStack.peek())))
@@ -127,13 +128,11 @@ public class LinkedStack<T> implements StackInterface<T>
                         operatorStack.push(nextCharacter);
                         break;
                     }
-                    
                     case '(':
                     {
                         operatorStack.push(nextCharacter);
                         break;
                     }
-
                     case ')':
                     {
                         char topOperator = operatorStack.pop();
@@ -147,6 +146,14 @@ public class LinkedStack<T> implements StackInterface<T>
                 }
             }
         }
+        while (!operatorStack.isEmpty())
+        {
+            char topOperator = operatorStack.pop();
+            postfix.append(topOperator);
+            System.out.println(postfix.toString());
+        }
+    }
+}
 
         while (!operatorStack.isEmpty())
         {
