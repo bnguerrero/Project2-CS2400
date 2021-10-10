@@ -4,7 +4,7 @@ Group Members: Brianne Guerrero, Nicholas Nguyen, George Fransis, Angelica Artea
   
 Contributions:
 
-  Brianne Guerrero:
+  Brianne Guerrero: StackInterface.java, LinkedStack.java, LinkedStackTest.java
   
   Nicholas Nguyen:
   
