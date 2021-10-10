@@ -5,11 +5,11 @@ public class ArrayStackTest
     public static void main(String[] args){
         try{
             ResizeableArrayStack<Integer> testStack = new ResizeableArrayStack<>();
-            testStack.pop();
             System.out.println(testStack.evaluatePostfix("ae+bd-/"));
             System.out.println(testStack.evaluatePostfix("abc*d*-"));
             System.out.println(testStack.evaluatePostfix("abc-/d*"));
             System.out.println(testStack.evaluatePostfix("ebca^*+d-"));
+            System.out.println(testStack.evaluatePostfix("ab*ca-/de*+"));
         }
         catch(IllegalStateException ex){
             System.out.println(ex.getMessage());

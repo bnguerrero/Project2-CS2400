@@ -17,7 +17,6 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
     public ResizeableArrayStack(int inititalCapacity)
     {
         checkCapacity(inititalCapacity);
-        integrityOK = false; 
         @SuppressWarnings("unchecked")
         T[] tempStack =(T[])new Object[inititalCapacity];
         stack = tempStack;
