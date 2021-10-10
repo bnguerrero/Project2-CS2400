@@ -6,7 +6,7 @@ Contributions:
 
   Brianne Guerrero: StackInterface.java, LinkedStack.java, LinkedStackTest.java
   
-  Nicholas Nguyen:
+  Nicholas Nguyen: ResizeableArrayStack.java, ArrayStackTest.java
   
   George Francis: 
   

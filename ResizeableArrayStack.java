@@ -74,6 +74,7 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
     }
 
     public int evaluatePostfix(String entry){
+        checkIntegrity();
         ResizeableArrayStack<Integer> stack1 = new ResizeableArrayStack<>();
         for(int i=0, temp; i<entry.length(); i++){
             switch(entry.charAt(i)){
@@ -128,6 +129,6 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
         }
     }
   
-  
+
   
 }
