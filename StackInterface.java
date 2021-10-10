@@ -32,4 +32,10 @@ public interface StackInterface<T>
      */
     public void clear();
     
+     /**
+     * used for LinkedStack.
+     * @param infix an infix to be converted into a postfix
+     */
+    public void convertToPostfix(String infix);
+    
 }
