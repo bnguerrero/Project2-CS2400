@@ -4,45 +4,42 @@ import java.util.EmptyStackException;
 public class LinkedStack<T> implements StackInterface<T>
 {
     private Node topNode; 
-    private int numberOfEntries;
+    private int numberOfEntries=0;
 
     public LinkedStack()
     {
         topNode = null;
     }
 
-    private class Node
-	{
-	   private T data; 
-	   private Node next; 
-
-		private Node(T dataPortion)
-		{
-			this(dataPortion, null);	
-		} // end constructor
-		
-		private Node(T dataPortion, Node nextNode)
-		{
-			data = dataPortion;
-			next = nextNode;	
-		} 
-
-        private T getData()
-        {
+    private class Node{
+        private T data;
+        private Node next;
+        private Node(T dataPortion){
+            this(dataPortion, null);
+        }
+        private Node(T dataPortion, Node nextNode){
+            data = dataPortion;
+            next = nextNode;
+        }
+        private T getData(){
             return data;
         }
-        
-        private Node getNextNode()
-        {
+        private void setData(T newData){
+            data = newData;
+        }
+        private Node getNextNode(){
             return next;
         }
-
-	} 
+        private void setNextNode(Node nextNode){
+            next = nextNode;
+        }
+    }
 
     public void push(T newEntry)
     {
         Node newNode = new Node(newEntry, topNode);
         topNode = newNode;
+        numberOfEntries++;
     }
 
     public T pop()
@@ -73,92 +70,56 @@ public class LinkedStack<T> implements StackInterface<T>
     {
         topNode = null;
     }
-
-    public int precedenceOf(char character)
-    {
-        switch (character)
-        {
-            case '(': case ')':
-            {
-                return 0;
-            }
-            case '+': case '-':
-            {
-                return 1;
-            }
-            case '*': case '/':
-            {
-                return 2;
-            }
-            case '^':
-            {
-                return 3;
-            }
+    public int precedence(char entry){
+        if(entry == '+' || entry == '-'){
+            return 1;
         }
-        return -1;
+        else if(entry == '*' || entry == '/'){
+            return 2;
+        }
+        else return 0;
     }
-
-    public void convertToPostfix(String infix)
-    {
-        StackInterface<Character> operatorStack = new LinkedStack<>();
-        StringBuilder postfix = new StringBuilder("");
-
-        for (int i=0; i<infix.length(); i++)
-        {
-            char nextCharacter = infix.charAt(i);
-            while (nextCharacter != ' ')
-            {
-                switch (nextCharacter)
-                {
-                    case 'a': case 'b': case 'c': case 'd': case 'e':
-                    {
-                        postfix.append(nextCharacter);
+    public String convertToPostfix(String entry){
+        LinkedStack<Character> stack1 = new LinkedStack<>();
+        String result = "";
+        int length = entry.length();
+        for(int i=0; i<length; i++){
+            switch (entry.charAt(i)){
+                case 'a': case 'b': case 'c': case 'd': case 'e':
+                    result += entry.charAt(i);
+                    break;
+                case '^':
+                    stack1.push(entry.charAt(i));
+                    break;
+                case '+': case '-': case '/': case '*':
+                    if(stack1.isEmpty()){
+                        stack1.push(entry.charAt(i));
                     }
-                    case '^':
-                    {
-                        operatorStack.push(nextCharacter);
+                    else if(precedence(stack1.peek()) >= precedence(entry.charAt(i))){
+                        result += stack1.pop();
+                        stack1.push(entry.charAt(i));
                     }
-                    case '+': case '-': case '*': case'/':
-                    {
-                        while ((!operatorStack.isEmpty())&& (precedenceOf(nextCharacter) <= precedenceOf(operatorStack.peek())))
-                        {
-                            postfix.append(operatorStack.peek());
-                            operatorStack.pop();
-                        }
-                        operatorStack.push(nextCharacter);
-                        break;
+                    else{
+                        stack1.push(entry.charAt(i));
                     }
-                    case '(':
-                    {
-                        operatorStack.push(nextCharacter);
-                        break;
+                    break;
+                case '(':
+                    stack1.push(entry.charAt(i));
+                    break;
+                case ')':
+                    char topOperator = stack1.pop();
+                    while(topOperator != '('){
+                        result += topOperator;
+                        topOperator = stack1.pop();
                     }
-                    case ')':
-                    {
-                        char topOperator = operatorStack.pop();
-                        while (topOperator != '(')
-                        {
-                            postfix.append(topOperator);
-                            topOperator = operatorStack.pop();
-                        }
-                        break;
-                    }
-                }
+                    break;
+                default: break;
+                        
             }
         }
-        while (!operatorStack.isEmpty())
-        {
-            char topOperator = operatorStack.pop();
-            postfix.append(topOperator);
-            System.out.println(postfix.toString());
+        while(!stack1.isEmpty()){
+            result += stack1.pop();
         }
-    }
-}
-
-        while (!operatorStack.isEmpty())
-        {
-            char topOperator = operatorStack.pop();
-            postfix.append(topOperator);
-        }
+        return result;
     }
 }
