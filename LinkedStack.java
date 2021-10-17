@@ -70,56 +70,69 @@ public class LinkedStack<T> implements StackInterface<T>
     {
         topNode = null;
     }
-    public int precedence(char entry){
-        if(entry == '+' || entry == '-'){
-            return 1;
-        }
-        else if(entry == '*' || entry == '/'){
-            return 2;
-        }
-        else return 0;
-    }
-    public String convertToPostfix(String entry){
-        LinkedStack<Character> stack1 = new LinkedStack<>();
-        String result = "";
-        int length = entry.length();
-        for(int i=0; i<length; i++){
-            switch (entry.charAt(i)){
-                case 'a': case 'b': case 'c': case 'd': case 'e':
-                    result += entry.charAt(i);
-                    break;
-                case '^':
-                    stack1.push(entry.charAt(i));
-                    break;
-                case '+': case '-': case '/': case '*':
-                    if(stack1.isEmpty()){
-                        stack1.push(entry.charAt(i));
-                    }
-                    else if(precedence(stack1.peek()) >= precedence(entry.charAt(i))){
-                        result += stack1.pop();
-                        stack1.push(entry.charAt(i));
-                    }
-                    else{
-                        stack1.push(entry.charAt(i));
-                    }
-                    break;
-                case '(':
-                    stack1.push(entry.charAt(i));
-                    break;
-                case ')':
-                    char topOperator = stack1.pop();
-                    while(topOperator != '('){
-                        result += topOperator;
-                        topOperator = stack1.pop();
-                    }
-                    break;
-                default: break;
-                        
+    public int precedenceOf(char character)
+    {
+        switch (character)
+        {
+            case '(': case ')':
+            {
+                return 0;
+            }
+            case '+': case '-':
+            {
+                return 1;
+            }
+            case '*': case '/':
+            {
+                return 2;
+            }
+            case '^':
+            {
+                return 3;
             }
         }
-        while(!stack1.isEmpty()){
-            result += stack1.pop();
-        }
-        return result;
+        return -1;
     }
+    public void convertToPostfix(String infix)
+    {
+       StackInterface<Character> operatorStack = new LinkedStack<>();
+       String postfix = "";
+       for(int i=0;i<infix.length();i++)
+       {
+           char nextCharacter = infix.charAt(i);
+          
+           if(nextCharacter == 'a' || nextCharacter == 'b' || nextCharacter == 'c' || nextCharacter == 'd' || nextCharacter == 'e')
+           {
+               postfix += nextCharacter;
+           }
+
+           else if(nextCharacter == '+' || nextCharacter == '-' || nextCharacter == '*' || nextCharacter == '/' || nextCharacter == '^')
+           {
+               while(!operatorStack.isEmpty() && precedenceOf(nextCharacter) <= precedenceOf(operatorStack.peek()))
+               {
+                   postfix += operatorStack.pop();
+               }
+               operatorStack.push(nextCharacter); 
+           }
+
+           else if(nextCharacter == '(') 
+           {
+               operatorStack.push(nextCharacter); 
+           }
+        
+           else if(nextCharacter == ')') 
+           {
+               while(!operatorStack.isEmpty() && operatorStack.peek() != '(')
+               {
+                   postfix += operatorStack.pop();
+               }
+               operatorStack.pop();
+           }
+       }
+       while(!operatorStack.isEmpty()) 
+       {
+           postfix += operatorStack.pop();
+       }
+       System.out.println(postfix.toString());
+   }  
 }
