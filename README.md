@@ -1,5 +1,5 @@
 # Project2-CS2400
-Group Members: Brianne Guerrero, Nicholas Nguyen, George Fransis, Angelica Arteaga
+Group Members: Brianne Guerrero, Nicholas Nguyen, George Fransis
   
   
 Contributions:
