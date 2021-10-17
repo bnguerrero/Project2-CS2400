@@ -9,8 +9,5 @@ Contributions:
   Nicholas Nguyen: ResizeableArrayStack.java, ArrayStackTest.java
   
   George Francis: 
-  
-  Angelica Arteage: 
-  
-  
+ 
 Screen-Cast Link: 
