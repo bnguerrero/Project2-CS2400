@@ -8,9 +8,9 @@ Contributions:
   
   Nicholas Nguyen: ResizeableArrayStack.java, ArrayStackTest.java
   
-  George Francis: 
+  George Francis: google doc chart
  
-Screen-Cast Link: 
+Screen-Cast Link: https://youtu.be/GGhq5cPCDTQ
 
 java-doc: file:///C:/Users/iinic/eclipse-workspace/StackInterface.java/doc/StackInterface.html
 
